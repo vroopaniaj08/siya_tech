@@ -3,10 +3,10 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 dotenv.config();
 const app = express();
-app.use(express.json()); // Middleware to parse JSON
+app.use(express.json());
 app.use(cors());
 const mongoose = require("mongoose");
-let tasks = []; // In-memory task storage
+let tasks = [];
 
 
 mongoose.connect(process.env.MONGODB_URI)
@@ -19,7 +19,6 @@ const taskSchema = new mongoose.Schema({
 });
 
 const Task = mongoose.model("Task", taskSchema);
-// Create a Task
 
 app.post("/tasks", async (req, res) => {
     const { title, completed } = req.body;
@@ -31,18 +30,15 @@ app.post("/tasks", async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 });
-
-// Get All Tasks
 app.get("/tasks", async (req, res) => {
     try {
-        const tasks = await Task.find(); // Fetch all tasks from the database
+        const tasks = await Task.find();
         res.json(tasks);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 });
 
-// Get a Task by ID
 app.get("/tasks/:id", async (req, res) => {
     try {
         const task = await Task.findById(req.params.id);
@@ -53,7 +49,6 @@ app.get("/tasks/:id", async (req, res) => {
     }
 });
 
-// Update a Task
 app.put("/tasks/:id", async (req, res) => {
     const task = await Task.findById(req.params.id);
     if (!task) return res.status(404).json({ message: "Task not found" });
@@ -69,16 +64,13 @@ app.put("/tasks/:id", async (req, res) => {
     }
 });
 
-// Delete a Task
 app.delete("/tasks/:id", async (req, res) => {
     const task = await Task.findByIdAndDelete(req.params.id);
     if (!task) return res.status(404).json({ message: "Task not found" });
     res.status(204).json({ message: "Task deleted" });
 });
 
-// Start the server
 const PORT = process.env.PORT || 7002;
-// console.log(`Server is running on port ${PORT}`);
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
