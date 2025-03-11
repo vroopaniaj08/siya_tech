@@ -6,15 +6,13 @@ import 'bootstrap/dist/js/bootstrap.min.js';
 
 const App = () => {
     return (
-        <div className="mt-4 d-flex flex-column align-items-center">
-            <div className="row justify-content-center">
+        <div className="m-5 d-flex justify-content-center align-items-center h-100 w-100">
                 <div className="col-md-6">
                     <TaskForm />
                 </div>
                 <div className="col-md-6">
                     <TaskList />
                 </div>
-            </div>
         </div>
     );
 };
